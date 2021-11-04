@@ -16,5 +16,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // require语句在vue.config.js中报错，设置让eslint通过
+    '@typescript-eslint/no-var-requires': 'off',
   },
 }
