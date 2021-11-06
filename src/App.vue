@@ -7,6 +7,21 @@
   <router-view />
 </template>
 
+<script lang="ts">
+import { onMounted } from 'vue'
+import { a } from '@/service/index'
+export default {
+  setup() {
+    // console.log('props: ', props)
+    onMounted(async () => {
+      let res = await a()
+      console.log('res: ', res)
+    })
+    return {}
+  },
+}
+</script>
+
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
