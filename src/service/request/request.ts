@@ -13,6 +13,7 @@ export default class Request {
   loadingInstance?: ILoadingInstance
   // loading状态
   showLoading?: boolean
+  count?: number
 
   constructor(config: RequestConfig) {
     // axios实例
@@ -22,22 +23,22 @@ export default class Request {
     // 默认不显示。如果显示loading效果，需要通过自定义属性配置
     this.showLoading = config.showLoading ?? false
 
-    // 自定义请求拦截器
-    this.instance.interceptors.request.use(
-      this.interceptors?.requestInterceptor,
-      this.interceptors?.requestInterceptorCatch,
-    )
+    // // 自定义请求拦截器
+    // this.instance.interceptors.request.use(
+    //   this.interceptors?.requestInterceptor,
+    //   this.interceptors?.requestInterceptorCatch,
+    // )
 
-    // 自定义响应拦截器
-    this.instance.interceptors.response.use(
-      this.interceptors?.responseInterceptor,
-      this.interceptors?.responseInterceptorCatch,
-    )
+    // // 自定义响应拦截器
+    // this.instance.interceptors.response.use(
+    //   this.interceptors?.responseInterceptor,
+    //   this.interceptors?.responseInterceptorCatch,
+    // )
 
     // 定义所有实例都需要用到的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        // console.log('所有实例使用的拦截器，请求成功')
+        console.log('所有实例使用的拦截器，请求成功')
         if (this.showLoading) {
           this.loadingInstance = ElLoading.service({
             lock: false,
@@ -47,7 +48,7 @@ export default class Request {
         return config
       },
       (err) => {
-        // console.log('所有实例使用的拦截器，请求失败')
+        console.log('所有实例使用的拦截器，请求失败')
         this.loadingInstance?.close()
         return err
       },
@@ -56,11 +57,10 @@ export default class Request {
     // 定义所有实例都需要用到的拦截器
     this.instance.interceptors.response.use(
       (res) => {
-        // console.log('res: ', res)
         const {
           data: { data, success },
         } = res
-        // console.log('所有实例使用的拦截器，响应成功')
+        console.log('所有实例使用的拦截器，响应成功')
         this.loadingInstance?.close()
         // 对响应数据进行响应拦截处理
         if (success) {
@@ -68,7 +68,7 @@ export default class Request {
         }
       },
       (err) => {
-        // console.log('所有实例使用的拦截器，请求成功')
+        console.log('所有实例使用的拦截器，请求成功')
         this.loadingInstance?.close()
         return err
       },

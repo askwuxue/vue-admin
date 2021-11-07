@@ -4,27 +4,27 @@ import Request from './request/request'
 const request = new Request({
   baseURL: BASE_URL,
   timeout: 2000,
-  interceptors: {
-    requestInterceptor(config) {
-      // console.log('config: ', '请求拦截成功')
-      return config
-    },
-    requestInterceptorCatch(err) {
-      // console.log('err: ', err)
-      return err
-      // console.log('请求拦截失败')
-    },
-    responseInterceptor(data) {
-      // console.log('data: ', data)
-      // console.log('响应拦截成功')
-      return data
-    },
-    responseInterceptorCatch(err) {
-      // console.log('err: ', err)
-      return err
-      // console.log('err: ', '响应拦截失败')
-    },
-  },
+  // interceptors: {
+  //   requestInterceptor(config) {
+  //     console.log('请求拦截成功')
+  //     return config
+  //   },
+  //   requestInterceptorCatch(err) {
+  //     // console.log('err: ', err)
+  //     console.log('请求拦截失败')
+  //     return err
+  //   },
+  //   responseInterceptor(data) {
+  //     // console.log('data: ', data)
+  //     console.log('响应拦截成功')
+  //     return data
+  //   },
+  //   responseInterceptorCatch(err) {
+  //     // console.log('err: ', err)
+  //     // console.log('err: ', '响应拦截失败')
+  //     return err
+  //   },
+  // },
 })
 
 export async function a(): Promise<any> {
