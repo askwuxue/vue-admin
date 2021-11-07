@@ -12,7 +12,7 @@
     </div>
     <div class="demo-rate-block">
       <span class="demonstration">Default</span>
-      <el-rate v-model="value1"></el-rate>
+      <el-rate></el-rate>
     </div>
   </div>
 </template>
