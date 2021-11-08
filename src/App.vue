@@ -1,46 +1,34 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link>
-    |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view />
 </template>
 
 <script lang="ts">
-import { onMounted } from 'vue'
-import { a } from '@/service/index'
 export default {
   setup() {
-    // console.log('props: ', props)
-    onMounted(async () => {
-      let res = await a()
-      console.log('res: ', res)
-    })
     return {}
   },
 }
 </script>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+// #app {
+//   font-family: Avenir, Helvetica, Arial, sans-serif;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   text-align: center;
+//   color: #2c3e50;
+// }
 
-#nav {
-  padding: 30px;
+// #nav {
+//   padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+//   a {
+//     font-weight: bold;
+//     color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+//     &.router-link-exact-active {
+//       color: #42b983;
+//     }
+//   }
+// }
 </style>
