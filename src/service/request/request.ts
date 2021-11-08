@@ -4,6 +4,9 @@ import type { requestInterceptors, RequestConfig } from './type'
 import { ElLoading } from 'element-plus'
 import { ILoadingInstance } from 'element-plus/es/components/loading/index'
 
+// loading状态,用于还原实例中loading的默认值
+const DEFAULT_LOADING = false
+
 // 对axios进行二次封装
 export default class Request {
   instance: AxiosInstance
@@ -13,7 +16,6 @@ export default class Request {
   loadingInstance?: ILoadingInstance
   // loading状态
   showLoading?: boolean
-  count?: number
 
   constructor(config: RequestConfig) {
     // axios实例
@@ -21,19 +23,19 @@ export default class Request {
     // 自定义组件实例的拦截器
     this.interceptors = config.interceptors
     // 默认不显示。如果显示loading效果，需要通过自定义属性配置
-    this.showLoading = config.showLoading ?? false
+    this.showLoading = config.showLoading ?? DEFAULT_LOADING
 
-    // // 自定义请求拦截器
-    // this.instance.interceptors.request.use(
-    //   this.interceptors?.requestInterceptor,
-    //   this.interceptors?.requestInterceptorCatch,
-    // )
+    // 自定义请求拦截器
+    this.instance.interceptors.request.use(
+      this.interceptors?.requestInterceptor,
+      this.interceptors?.requestInterceptorCatch,
+    )
 
-    // // 自定义响应拦截器
-    // this.instance.interceptors.response.use(
-    //   this.interceptors?.responseInterceptor,
-    //   this.interceptors?.responseInterceptorCatch,
-    // )
+    // 自定义响应拦截器
+    this.instance.interceptors.response.use(
+      this.interceptors?.responseInterceptor,
+      this.interceptors?.responseInterceptorCatch,
+    )
 
     // 定义所有实例都需要用到的拦截器
     this.instance.interceptors.request.use(
@@ -76,27 +78,41 @@ export default class Request {
   }
 
   request(config: RequestConfig): Promise<AxiosResponse<any, any>> {
-    // 针对每一个请求方法可以设置单独的拦截器
-    if (config.interceptors?.requestInterceptor) {
-      config = config.interceptors.requestInterceptor(config)
-    }
-
-    // 自定义loading加载
-    if (config?.showLoading) {
-      this.loadingInstance = ElLoading.service({
-        lock: false,
-        background: 'rgba(0, 0, 0, 0.5)',
-      })
-    }
-    // 加载结束，需要将showLoading状态还原,否则会影响到其他请求
-    config.showLoading = false
-
-    this.instance.request(config).then((res) => {
-      if (config.interceptors?.responseInterceptor) {
-        res = config.interceptors.responseInterceptor(res)
+    return new Promise((resolve, reject) => {
+      // 针对每一个请求方法可以设置单独的拦截器
+      if (config.interceptors?.requestInterceptor) {
+        config = config.interceptors.requestInterceptor(config)
       }
-    })
+      // 自定义loading加载状态
+      this.showLoading = config?.showLoading
 
-    return this.instance.request(config)
+      this.instance
+        .request(config)
+        .then((res) => {
+          if (config.interceptors?.responseInterceptor) {
+            res = config.interceptors.responseInterceptor(res)
+          }
+          // 加载结束，需要将showLoading状态还原,否则会影响到其他请求
+          config.showLoading = DEFAULT_LOADING
+          resolve(res)
+        })
+        .catch((err) => {
+          // 加载结束，需要将showLoading状态还原,否则会影响到其他请求
+          config.showLoading = DEFAULT_LOADING
+          reject(err)
+        })
+    })
+  }
+
+  get(config: RequestConfig): Promise<AxiosResponse<any, any>> {
+    return this.request({ ...config, method: 'GET' })
+  }
+
+  post(config: RequestConfig): Promise<AxiosResponse<any, any>> {
+    return this.request({ ...config, method: 'POST' })
+  }
+
+  delete(config: RequestConfig): Promise<AxiosResponse<any, any>> {
+    return this.request({ ...config, method: 'DELETE' })
   }
 }
