@@ -7,6 +7,8 @@ import 'normalize.css'
 import 'element-plus/dist/index.css'
 // 按需加载组件的基础样式
 import 'element-plus/theme-chalk/base.css'
+// 自定义样式
+import '@/assets/css/index.css'
 
 const app = createApp(App)
 app.use(register)
