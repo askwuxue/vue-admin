@@ -1,8 +1,8 @@
 <template>
   <div class="login-panel">
     <h1 class="login-title">后台管理系统</h1>
-    <el-tabs type="border-card">
-      <el-tab-pane>
+    <el-tabs type="border-card" v-model="currTab" tab-click="changeTab">
+      <el-tab-pane name="accountPane">
         <template #label>
           <span>
             <el-icon class=""></el-icon>
@@ -12,7 +12,7 @@
         <!-- 账号密码登录组件 -->
         <login-account ref="accountRef"></login-account>
       </el-tab-pane>
-      <el-tab-pane label="Config">
+      <el-tab-pane label="Config" name="phonePane">
         <template #label>
           <span>
             <el-icon class=""></el-icon>
@@ -20,16 +20,16 @@
           </span>
         </template>
         <!-- 手机号登录组件 -->
-        <login-phone></login-phone>
+        <login-phone ref="phoneRef"></login-phone>
       </el-tab-pane>
-      <el-button
-        type="primary"
-        @click="submitForm('ruleForm')"
-        class="login-button"
-      >
-        Submit
-      </el-button>
     </el-tabs>
+    <el-button
+      type="primary"
+      @click="submitForm('ruleForm')"
+      class="login-button"
+    >
+      Submit
+    </el-button>
   </div>
 </template>
 
@@ -37,6 +37,8 @@
 import { defineComponent, ref, SetupContext } from 'vue'
 import LoginAccount from './Login-account.vue'
 import LoginPhone from './Login-phone.vue'
+import { ACCOUNTPANE, PHONEPANE } from '../config/common'
+
 export default defineComponent({
   name: '',
   props: {},
@@ -47,11 +49,29 @@ export default defineComponent({
   setup(props, ctx: SetupContext) {
     // login-account 组件ref
     const accountRef = ref<InstanceType<typeof LoginPhone>>()
+
+    // login-phone 组件ref
+    const phoneRef = ref<InstanceType<typeof LoginPhone>>()
+
+    // 当前选中的tab
+    const currTab = ref(ACCOUNTPANE)
+
     // 登录
     const submitForm = () => {
-      accountRef.value?.loginAction()
+      // account 登录
+      if (currTab.value === ACCOUNTPANE) {
+        accountRef.value?.loginAction()
+      }
+
+      // phone登录
+      if (currTab.value === PHONEPANE) {
+        console.log('PHONEPANE: ', PHONEPANE)
+        phoneRef.value?.loginAction()
+      }
     }
+
     return {
+      currTab,
       accountRef,
       submitForm,
     }

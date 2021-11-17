@@ -14,6 +14,7 @@
         <el-input v-model="account.pass"></el-input>
       </el-form-item>
     </el-form>
+    <el-checkbox v-model="isKeepPassword" label="记住密码"></el-checkbox>
   </div>
 </template>
 
@@ -21,27 +22,45 @@
 import { ElForm } from 'element-plus/lib/components'
 import { defineComponent, reactive, ref, SetupContext } from 'vue'
 import { rules } from '../config/login-account'
+import localCache from '@/utils/cache'
+import store from '@/store'
+
 export default defineComponent({
   name: '',
   props: {},
   components: {},
   setup(props, ctx: SetupContext) {
     const account = reactive({
-      name: '',
-      pass: '',
+      name: localCache.getCache('name') ? localCache.getCache('name') : '',
+      pass: localCache.getCache('pass') ? localCache.getCache('pass') : '',
     })
     const labelPosition = 'left'
+    // 是否记住密码
+    const isKeepPassword = ref(false)
     const formRef = ref<InstanceType<typeof ElForm>>()
     // 提交验证
     const loginAction = () => {
+      // 输入验证
       formRef.value?.validate((valid) => {
-        console.log('valid: ', valid)
-        console.log('account 登录验证')
+        if (valid) {
+          // 1. 记住密码逻辑
+          if (isKeepPassword.value) {
+            localCache.setCache('name', account.name)
+            localCache.setCache('pass', account.pass)
+          } else {
+            localCache.deleteCache('name')
+            localCache.deleteCache('pass')
+          }
+
+          // 2. 开始登录验证
+          store.dispatch('loginModule/accountLoginAction', account)
+        }
       })
     }
     return {
       account,
       labelPosition,
+      isKeepPassword,
       rules,
       formRef,
       loginAction,

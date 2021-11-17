@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts">
+import store from '@/store'
 import { ElForm } from 'element-plus'
 import { defineComponent, reactive, ref, SetupContext } from 'vue'
 import { rules } from '../config/login-phone'
@@ -35,9 +36,15 @@ export default defineComponent({
     const formRef = ref<InstanceType<typeof ElForm>>()
     // 表单验证
     const loginAction = () => {
+      console.log('loginAction: ')
       formRef.value?.validate((valid) => {
         console.log('valid: ', valid)
-        console.log('真正的执行逻辑')
+        if (valid) {
+          // 登录
+          store.dispatch('loginModule/phoneLoginAction', info)
+        }
+        // console.log('valid: ', valid)
+        // console.log('真正的执行逻辑')
       })
     }
 
