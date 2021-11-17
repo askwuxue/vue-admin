@@ -9,6 +9,7 @@ import {
   ElInput,
   ElForm,
   ElFormItem,
+  ElCheckbox,
 } from 'element-plus/lib/components'
 
 export default [
@@ -22,4 +23,5 @@ export default [
   ElInput,
   ElForm,
   ElFormItem,
+  ElCheckbox,
 ]
