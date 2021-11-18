@@ -6,6 +6,8 @@ const request = new Request({
   timeout: 2000,
   interceptors: {
     requestInterceptor(config) {
+      const token = ''
+      config.headers.Authorization = `Bearer ${token}`
       return config
     },
     requestInterceptorCatch(err) {
