@@ -10,8 +10,8 @@
       <el-form-item label="账号" prop="name">
         <el-input v-model="account.name"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pass">
-        <el-input v-model="account.pass"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="account.password"></el-input>
       </el-form-item>
     </el-form>
     <el-checkbox v-model="isKeepPassword" label="记住密码"></el-checkbox>
@@ -32,7 +32,9 @@ export default defineComponent({
   setup(props, ctx: SetupContext) {
     const account = reactive({
       name: localCache.getCache('name') ? localCache.getCache('name') : '',
-      pass: localCache.getCache('pass') ? localCache.getCache('pass') : '',
+      password: localCache.getCache('password')
+        ? localCache.getCache('password')
+        : '',
     })
     const labelPosition = 'left'
     // 是否记住密码
@@ -46,10 +48,10 @@ export default defineComponent({
           // 1. 记住密码逻辑
           if (isKeepPassword.value) {
             localCache.setCache('name', account.name)
-            localCache.setCache('pass', account.pass)
+            localCache.setCache('password', account.password)
           } else {
             localCache.deleteCache('name')
-            localCache.deleteCache('pass')
+            localCache.deleteCache('password')
           }
 
           // 2. 开始登录验证
