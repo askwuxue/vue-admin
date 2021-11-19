@@ -21,11 +21,4 @@ const request = new Request({
     },
   },
 })
-
-// export async function a(): Promise<any> {
-//   return request.get({
-//     url: '/home/multidata',
-//     method: 'GET',
-//     showLoading: true,
-//   })
-// }
+export default request
