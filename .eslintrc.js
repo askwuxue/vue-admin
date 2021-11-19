@@ -20,5 +20,7 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     // 允许any类型通过检测
     '@typescript-eslint/no-explicit-any': 'off',
+    // 允许函数通过自动推断确定返回值类型
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 }
