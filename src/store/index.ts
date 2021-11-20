@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import { IRootState } from './types'
 import loginModule from './login/login'
 
-export default createStore<IRootState>({
+const store = createStore<IRootState>({
   state() {
     return {
       name: '',
@@ -15,3 +15,10 @@ export default createStore<IRootState>({
     loginModule,
   },
 })
+
+// 设置store的数据，从localStorage中取值
+export const setupStore = () => {
+  store.dispatch('loginModule/solveState')
+}
+
+export default store
