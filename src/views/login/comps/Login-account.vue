@@ -38,7 +38,7 @@ export default defineComponent({
     })
     const labelPosition = 'left'
     // 是否记住密码
-    const isKeepPassword = ref(false)
+    const isKeepPassword = ref(true)
     const formRef = ref<InstanceType<typeof ElForm>>()
     // 提交验证
     const loginAction = () => {
