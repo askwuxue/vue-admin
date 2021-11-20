@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosResponse } from 'axios'
+import type { AxiosInstance } from 'axios'
 import type { requestInterceptors, RequestConfig } from './type'
 import { ElLoading } from 'element-plus'
 import { ILoadingInstance } from 'element-plus/es/components/loading/index'
@@ -40,7 +40,7 @@ export default class Request {
     // 定义所有实例都需要用到的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('所有实例使用的拦截器，请求成功')
+        // console.log('所有实例使用的拦截器，请求成功')
         if (this.showLoading) {
           this.loadingInstance = ElLoading.service({
             lock: false,
@@ -59,25 +59,24 @@ export default class Request {
     // 定义所有实例都需要用到的拦截器
     this.instance.interceptors.response.use(
       (res) => {
-        const {
-          data: { data, success },
-        } = res
-        console.log('所有实例使用的拦截器，响应成功')
+        const { data, status, statusText } = res
+        // console.log('所有实例使用的拦截器，响应成功')
         this.loadingInstance?.close()
         // 对响应数据进行响应拦截处理
-        if (success) {
+        if (status === 200 && statusText === 'OK') {
           return data
         }
+        // return res
       },
       (err) => {
-        console.log('所有实例使用的拦截器，请求成功')
+        console.log('所有实例使用的拦截器，响应失败')
         this.loadingInstance?.close()
         return err
       },
     )
   }
 
-  request(config: RequestConfig): Promise<AxiosResponse<any, any>> {
+  request<T>(config: RequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 针对每一个请求方法可以设置单独的拦截器
       if (config.interceptors?.requestInterceptor) {
@@ -87,7 +86,7 @@ export default class Request {
       this.showLoading = config?.showLoading
 
       this.instance
-        .request(config)
+        .request<any, T>(config)
         .then((res) => {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
@@ -104,15 +103,15 @@ export default class Request {
     })
   }
 
-  get(config: RequestConfig): Promise<AxiosResponse<any, any>> {
-    return this.request({ ...config, method: 'GET' })
+  get<T>(config: RequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post(config: RequestConfig): Promise<AxiosResponse<any, any>> {
+  post<T>(config: RequestConfig<T>): Promise<T> {
     return this.request({ ...config, method: 'POST' })
   }
 
-  delete(config: RequestConfig): Promise<AxiosResponse<any, any>> {
+  delete<T>(config: RequestConfig<T>): Promise<T> {
     return this.request({ ...config, method: 'DELETE' })
   }
 }
