@@ -10,6 +10,15 @@ import {
   ElForm,
   ElFormItem,
   ElCheckbox,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElFooter,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItemGroup,
+  ElMenuItem,
 } from 'element-plus/lib/components'
 
 export default [
@@ -24,4 +33,13 @@ export default [
   ElForm,
   ElFormItem,
   ElCheckbox,
+  ElContainer,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElFooter,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItemGroup,
+  ElMenuItem,
 ]
