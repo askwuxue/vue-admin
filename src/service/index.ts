@@ -1,7 +1,6 @@
 import { BASE_URL } from './request/config'
 import Request from './request/request'
 import store from '@/store'
-import { ILoginState } from '../store/login/types'
 // 创建axios封装后的实例，并传入基本参数
 const request = new Request({
   baseURL: BASE_URL,
