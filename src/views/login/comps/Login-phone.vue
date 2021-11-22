@@ -41,7 +41,7 @@ export default defineComponent({
         console.log('valid: ', valid)
         if (valid) {
           // 登录
-          store.dispatch('loginModule/phoneLoginAction', info)
+          store.dispatch('login/phoneLoginAction', info)
         }
         // console.log('valid: ', valid)
         // console.log('真正的执行逻辑')

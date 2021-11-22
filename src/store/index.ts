@@ -1,6 +1,6 @@
-import { createStore } from 'vuex'
-import { IRootState } from './types'
-import loginModule from './login/login'
+import { createStore, useStore as vuexUseStore, Store } from 'vuex'
+import { IRootState, IStoreType } from './types'
+import login from './login/login'
 
 const store = createStore<IRootState>({
   state() {
@@ -12,13 +12,18 @@ const store = createStore<IRootState>({
   mutations: {},
   actions: {},
   modules: {
-    loginModule,
+    login,
   },
 })
 
 // 设置store的数据，从localStorage中取值
 export const setupStore = () => {
-  store.dispatch('loginModule/solveState')
+  store.dispatch('login/solveState')
+}
+
+// 导出useStore函数，对vuex的useStore进行封装
+export const useStore = (): Store<IStoreType> => {
+  return vuexUseStore()
 }
 
 export default store

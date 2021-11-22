@@ -8,7 +8,7 @@ const request = new Request({
   timeout: 2000,
   interceptors: {
     requestInterceptor(config) {
-      const token = store.getters['loginModule/getToken']
+      const token = store.getters['login/getToken']
       if (token) {
         // TODO 安装最新的axios版本会导致泛型不匹配出错
         config.headers.Authorization = `Bearer ${token}`

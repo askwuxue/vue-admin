@@ -9,7 +9,7 @@ import {
 } from '@/service/login/login'
 import cache from '@/utils/cache'
 
-const loginModule: Module<ILoginState, IRootState> = {
+const login: Module<ILoginState, IRootState> = {
   namespaced: true,
   state() {
     return {
@@ -109,4 +109,4 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
 }
 
-export default loginModule
+export default login

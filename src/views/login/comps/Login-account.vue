@@ -55,7 +55,7 @@ export default defineComponent({
           }
 
           // 2. 开始登录验证
-          store.dispatch('loginModule/accountLoginAction', account)
+          store.dispatch('login/accountLoginAction', account)
         }
       })
     }
