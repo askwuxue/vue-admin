@@ -5,7 +5,8 @@
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
       <span class="title">Vue3+TS</span>
     </div>
-    <el-menu default-active="2" class="el-menu-vertical">
+    <!-- default-active="2" -->
+    <el-menu class="el-menu-vertical" :collapse="isCollapse">
       <!-- 循环菜单列表 -->
       <template v-for="items of roleMenu" :key="items.id">
         <!-- 一级菜单 -->
@@ -35,7 +36,12 @@ import { useStore } from '@/store/index'
 
 export default defineComponent({
   name: 'nav-menu',
-  props: {},
+  props: {
+    isCollapse: {
+      type: Boolean,
+      require: true,
+    },
+  },
   components: {},
   setup(props, ctx: SetupContext) {
     const store = useStore()
@@ -51,7 +57,7 @@ export default defineComponent({
 .nav-menu {
   height: 100%;
   background-color: #001529;
-
+  color: #fff;
   .logo {
     display: flex;
     height: 28px;

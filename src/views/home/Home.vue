@@ -1,11 +1,17 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="300px">
-        <nav-menu></nav-menu>
+      <!-- 侧边栏 -->
+      <el-aside :width="isCollapse ? '50px' : '200px'">
+        <!-- 侧边菜单栏  -->
+        <nav-menu :isCollapse="isCollapse"></nav-menu>
       </el-aside>
+      <!-- 页面主体 -->
       <el-container class="page">
-        <el-header class="page-header">Header</el-header>
+        <!-- 页面头部 -->
+        <el-header>
+          <page-header @foldchange="foldChange"></page-header>
+        </el-header>
         <el-main class="page-content">Main</el-main>
         <!-- <el-footer>Footer</el-footer> -->
       </el-container>
@@ -14,16 +20,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext } from 'vue'
+import { defineComponent, ref, SetupContext } from 'vue'
 import { NavMenu } from '@/components/nav-menu'
+import { Header as PageHeader } from '@/components/header'
 export default defineComponent({
   name: 'home',
   props: {},
   components: {
     NavMenu,
+    PageHeader,
   },
   setup(props, ctx: SetupContext) {
-    return {}
+    // 是否侧边栏折叠
+    const isCollapse = ref(false)
+    const foldChange = (value: boolean) => {
+      isCollapse.value = value
+      // console.log('value: ', value)
+    }
+    return {
+      foldChange,
+      isCollapse,
+    }
   },
 })
 </script>
