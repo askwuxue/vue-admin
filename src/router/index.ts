@@ -4,12 +4,12 @@ import cache from '@/utils/cache'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/main',
   },
   {
-    path: '/home',
+    path: '/main',
     component: () => {
-      return import(/* webpackChunkName: "home" */ '@/views/home/Home.vue')
+      return import(/* webpackChunkName: "main" */ '@/views/main/Main.vue')
     },
     // TODO children的使用场景
     // children: [
