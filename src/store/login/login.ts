@@ -1,6 +1,7 @@
 import { Module } from 'vuex'
 import { IRootState } from '../types'
 import { ILoginState } from './types'
+import { mapMenusToRoutes } from '@/utils/mapMenus'
 import router from '@/router'
 import {
   accountLoginRequest,
@@ -37,6 +38,7 @@ const login: Module<ILoginState, IRootState> = {
     // 更新用户角色菜单
     updateRoleMenuInfo(state, roleMenuInfo) {
       state.roleMenuInfo = roleMenuInfo
+      mapMenusToRoutes(roleMenuInfo)
     },
   },
   actions: {
