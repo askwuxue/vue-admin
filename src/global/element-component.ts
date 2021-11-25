@@ -19,6 +19,10 @@ import {
   ElSubMenu,
   ElMenuItemGroup,
   ElMenuItem,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElAvatar,
 } from 'element-plus/lib/components'
 
 export default [
@@ -42,4 +46,8 @@ export default [
   ElSubMenu,
   ElMenuItemGroup,
   ElMenuItem,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElAvatar,
 ]
