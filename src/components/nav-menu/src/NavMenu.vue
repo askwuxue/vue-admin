@@ -18,7 +18,10 @@
             </template>
             <!-- 二级菜单 -->
             <template v-for="subItem of items.children" :key="subItem.id">
-              <el-menu-item :index="subItem.id + ''">
+              <el-menu-item
+                :index="subItem.id + ''"
+                @click="handleMenuItem(subItem)"
+              >
                 <i v-if="subItem.icon" :class="subItem.icon"></i>
                 <span>{{ subItem.name }}</span>
               </el-menu-item>
@@ -33,6 +36,7 @@
 <script lang="ts">
 import { defineComponent, SetupContext, computed } from 'vue'
 import { useStore } from '@/store/index'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'nav-menu',
@@ -45,9 +49,20 @@ export default defineComponent({
   components: {},
   setup(props, ctx: SetupContext) {
     const store = useStore()
+    const router = useRouter()
     const roleMenu = computed(() => store.state.login.roleMenuInfo)
+    // 从subMenu中取得menu的url，根据url，动态的添加path，进行路由跳转
+    const handleMenuItem = (item: any) => {
+      // TODO 刷新之后页面丢失
+      router.push({
+        // 路径不存在时，跳转到404
+        path: item.url ?? '/not-found',
+      })
+    }
+
     return {
       roleMenu,
+      handleMenuItem,
     }
   },
 })

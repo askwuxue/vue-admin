@@ -8,6 +8,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/main',
+    name: 'main',
     component: () => {
       return import(/* webpackChunkName: "main" */ '@/views/main/Main.vue')
     },
@@ -31,6 +32,7 @@ const routes: RouteRecordRaw[] = [
       return import(/* webpackChunkName: "login" */ '@/views/login/Login.vue')
     },
   },
+  // TODO 配置404页面
 ]
 
 const router = createRouter({
