@@ -23,6 +23,11 @@ import {
   ElDropdownMenu,
   ElDropdownItem,
   ElAvatar,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
 } from 'element-plus/lib/components'
 
 export default [
@@ -50,4 +55,9 @@ export default [
   ElDropdownMenu,
   ElDropdownItem,
   ElAvatar,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElDatePicker,
 ]
