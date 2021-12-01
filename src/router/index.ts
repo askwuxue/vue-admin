@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import cache from '@/utils/cache'
+import { firstMenu } from '@/utils/mapMenus'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -32,7 +33,16 @@ const routes: RouteRecordRaw[] = [
       return import(/* webpackChunkName: "login" */ '@/views/login/Login.vue')
     },
   },
-  // TODO 配置404页面
+  // TODO 配置404页面 vue3固定的配置方法
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not_found',
+    component: () => {
+      return import(
+        /* webpackChunkName: "login" */ '@/views/main/not_found/not-found.vue'
+      )
+    },
+  },
 ]
 
 const router = createRouter({
@@ -49,6 +59,11 @@ router.beforeEach((to, from, next) => {
     if (!token) {
       next('/login')
       return
+    }
+    // main页面重定向到菜单栏的第一个tab栏中
+    if (to.path === '/main') {
+      const path = firstMenu.url
+      next(path)
     }
   }
   next()
