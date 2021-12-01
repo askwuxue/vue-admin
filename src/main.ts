@@ -14,6 +14,7 @@ import '@/assets/css/index.css'
 const app = createApp(App)
 app.use(register)
 app.use(store)
-app.use(router)
+// TODO 动态注册的路由在使用路由之前，否则在路由匹配阶段无法找到对应的路径匹配的路由，导致匹配到404页面
 app.use(setupStore)
+app.use(router)
 app.mount('#app')
