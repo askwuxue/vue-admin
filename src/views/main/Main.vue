@@ -13,6 +13,7 @@
           <page-header @foldchange="foldChange"></page-header>
         </el-header>
         <el-main class="page-content">
+          <!-- TODO 为main页面添加背景颜色通过router-view包裹一层 -->
           <!-- <div class="page-info"> -->
           <router-view></router-view>
           <!-- </div> -->
