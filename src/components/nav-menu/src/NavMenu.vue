@@ -6,7 +6,11 @@
       <span class="title">Vue3+TS</span>
     </div>
     <!-- default-active="2" -->
-    <el-menu class="el-menu-vertical" :collapse="isCollapse">
+    <el-menu
+      :default-active="defaultAct"
+      class="el-menu-vertical"
+      :collapse="isCollapse"
+    >
       <!-- 循环菜单列表 -->
       <template v-for="items of roleMenu" :key="items.id">
         <!-- 一级菜单 -->
@@ -34,9 +38,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, computed } from 'vue'
+import { defineComponent, SetupContext, computed, ref } from 'vue'
 import { useStore } from '@/store/index'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { mapPathToMenu } from '@/utils/mapMenus'
 
 export default defineComponent({
   name: 'nav-menu',
@@ -50,7 +55,15 @@ export default defineComponent({
   setup(props, ctx: SetupContext) {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
+
+    const currentPath = route.path
     const roleMenu = computed(() => store.state.login.roleMenuInfo)
+    // path和菜单对象menu的映射关系
+    const menu = mapPathToMenu(roleMenu.value, currentPath)
+    // 默认选中的tab
+    const defaultAct = ref(`${menu.id}`)
+    // 默认的选中菜单栏tab
     // 从subMenu中取得menu的url，根据url，动态的添加path，进行路由跳转
     const handleMenuItem = (item: any) => {
       // TODO 刷新之后页面丢失
@@ -62,6 +75,7 @@ export default defineComponent({
 
     return {
       roleMenu,
+      defaultAct,
       handleMenuItem,
     }
   },
