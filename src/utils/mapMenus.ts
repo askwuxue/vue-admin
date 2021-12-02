@@ -42,16 +42,42 @@ export const mapMenusToRoutes = (usesMenus: any) => {
   recursiveGetRoute(usesMenus)
 }
 
-// 地址和菜单ID之前的映射
+// 地址和菜单ID之间的映射
 export const mapPathToMenu = (usesMenus: any, currentPath: string): any => {
   for (const menu of usesMenus) {
-    // console.log('menu-----: ', menu.url)
-    // console.log('currentPath-------: ', currentPath)
     if (menu.type === 1) {
       const findMenu = mapPathToMenu(menu.children, currentPath)
       // TODO 如果找到值就返回值，没找到就递归
       if (findMenu) {
         return findMenu
+      }
+    }
+    // 菜单模块id和当前路径匹配，返回菜单模块
+    if (menu.type === 2 && menu.url === currentPath) {
+      return menu
+    }
+  }
+}
+
+export const mapPathToBreadcrumb = (
+  usesMenus: any,
+  currentPath: string,
+  breadcrumb: any[],
+): any => {
+  for (const menu of usesMenus) {
+    if (menu.type === 1) {
+      const findMenu = mapPathToBreadcrumb(
+        menu.children,
+        currentPath,
+        breadcrumb,
+      )
+      // console.log('menu: ', menu)
+      // console.log('findMenu: ', findMenu)
+      // TODO 如果找到值就返回值，没找到就递归
+      if (findMenu) {
+        breadcrumb.push(menu)
+        breadcrumb.push(findMenu)
+        return breadcrumb
       }
     }
     // 菜单模块id和当前路径匹配，返回菜单模块
