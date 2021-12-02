@@ -1,11 +1,11 @@
 <template>
   <div class="user">
-    <wx-form v-bind="searchFormConfig"></wx-form>
+    <wx-form v-bind="searchFormConfig" v-model="searchData"></wx-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import WxForm from '@/base-ui/form'
 // 导入表单配置项
 import { searchFormConfig } from './config/search.config'
@@ -16,8 +16,15 @@ export default defineComponent({
     WxForm,
   },
   setup() {
+    const searchData = reactive({
+      name: '',
+      password: '',
+      hobbies: '',
+      datepicker: '',
+    })
     return {
       searchFormConfig,
+      searchData,
     }
   },
 })

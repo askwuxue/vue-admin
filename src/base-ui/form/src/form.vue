@@ -11,7 +11,12 @@
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
-                <el-input :type="item.type" :placeholder="item.placeholder" />
+                <el-input
+                  :type="item.type"
+                  :placeholder="item.placeholder"
+                  :value="modelValue.name"
+                  @input="updateModelValue"
+                />
               </template>
               <!-- type 属性为select -->
               <template v-else-if="item.type === 'select'">
@@ -65,10 +70,25 @@ export default defineComponent({
         lg: 8,
       }),
     },
+    modelValue: {},
   },
   components: {},
-  setup(props, ctx: SetupContext) {
-    return {}
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const newModel = {
+      name: '',
+    }
+    console.log('props: ', props.modelValue)
+    const updateModelValue = (newValue: any) => {
+      // console.log('newValue: ', newValue)
+      // console.log('event: ', event)
+      newModel.name = newValue
+      console.log('newModel: ', newModel)
+      emit('update:modelValue', newModel)
+    }
+    return {
+      updateModelValue,
+    }
   },
 })
 </script>
