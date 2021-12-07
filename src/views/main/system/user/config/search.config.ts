@@ -4,16 +4,19 @@ import { IForm } from '@/base-ui/form/types'
 export const searchFormConfig: IForm = {
   formItems: [
     {
+      filed: 'username',
       type: 'input',
       label: '用户名',
       placeholder: '请输入用户名',
     },
     {
+      filed: 'password',
       type: 'password',
       label: '密码',
       placeholder: '请输入密码',
     },
     {
+      filed: 'sports',
       type: 'select',
       label: '爱好',
       placeholder: '请选择你的爱好',
@@ -33,6 +36,7 @@ export const searchFormConfig: IForm = {
       ],
     },
     {
+      filed: 'createTime',
       type: 'datepicker',
       label: '日期',
       placeholder: '请输入用户名',

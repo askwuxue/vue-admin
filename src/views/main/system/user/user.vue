@@ -1,31 +1,29 @@
 <template>
   <div class="user">
-    <wx-form v-bind="searchFormConfig" v-model="searchData"></wx-form>
+    <page-search></page-search>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-import WxForm from '@/base-ui/form'
-// 导入表单配置项
-import { searchFormConfig } from './config/search.config'
+import PageSearch from '@/components/page-search'
+import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'user',
   components: {
-    WxForm,
+    PageSearch,
   },
   setup() {
-    const searchData = reactive({
-      name: '',
-      password: '',
-      hobbies: '',
-      datepicker: '',
+    const store = useStore()
+    store.dispatch('system/getPageListAction', {
+      url: '/users/list',
+      queryInfo: {
+        offset: 0,
+        size: 100,
+      },
     })
-    return {
-      searchFormConfig,
-      searchData,
-    }
+    return {}
   },
 })
 </script>
