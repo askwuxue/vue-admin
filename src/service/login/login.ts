@@ -1,6 +1,7 @@
 import request from '../index'
 import { LoginAPI, IAccount } from './type'
-import { IDataType, ILoginResult } from './type'
+import { ILoginResult } from './type'
+import { IDataType } from '../types'
 
 // 账号密码请求
 export const accountLoginRequest = (account: IAccount) => {

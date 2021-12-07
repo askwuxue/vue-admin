@@ -14,12 +14,6 @@ export interface IAccount {
   password: string
 }
 
-// 数据类型
-export interface IDataType<T = any> {
-  code: number
-  data: T
-}
-
 // login返回data类型
 export interface ILoginResult {
   id: number
