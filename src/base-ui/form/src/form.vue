@@ -33,12 +33,13 @@
                 </el-select>
               </template>
               <!-- type 属性为datepicker -->
-              <template v-else-if="item.type === 'datepicker'">
+              <!-- TODO datepicker 暂时注释 -->
+              <!-- <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
                   v-bind="item.otherOptions"
                   style="width: 100%"
                 ></el-date-picker>
-              </template>
+              </template> -->
             </el-form-item>
           </el-col>
         </template>
