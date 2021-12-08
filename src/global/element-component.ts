@@ -30,6 +30,8 @@ import {
   ElDatePicker,
   ElBreadcrumb,
   ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn,
 } from 'element-plus/lib/components'
 
 export default [
@@ -64,4 +66,6 @@ export default [
   ElDatePicker,
   ElBreadcrumb,
   ElBreadcrumbItem,
+  ElTable,
+  ElTableColumn,
 ]
