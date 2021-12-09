@@ -32,6 +32,7 @@ import {
   ElBreadcrumbItem,
   ElTable,
   ElTableColumn,
+  ElPagination,
 } from 'element-plus/lib/components'
 
 export default [
@@ -68,4 +69,5 @@ export default [
   ElBreadcrumbItem,
   ElTable,
   ElTableColumn,
+  ElPagination,
 ]
