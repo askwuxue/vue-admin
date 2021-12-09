@@ -3,11 +3,33 @@
     <!-- 搜索栏 -->
     <page-search></page-search>
     <!-- 数据展示栏 -->
-    <wx-table :tableData="userList" :propsData="propsData">
+    <wx-table
+      :tableData="userList"
+      :propsData="propsData"
+      :showIndex="showIndex"
+      :showSelect="showSelect"
+      :title="title"
+      @handleSelectionChange="handleSelectionChange"
+    >
+      <!-- header slot 渲染table的头部 -->
+      <template #headerHandler>
+        <el-button>创建用户</el-button>
+      </template>
       <!-- 动态插槽的渲染,指定对应的propName -->
       <template #status="scope">
-        <el-button>{{ scope.row.enable ? '启用' : '关闭' }}</el-button>
+        <!-- TODO 根据当前的状态设置不同的button样式 -->
+        <el-button type="primary" size="small" plain>
+          {{ scope.row.enable ? '启用' : '关闭' }}
+        </el-button>
       </template>
+      <template #createAt="scope">
+        <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
+      </template>
+      <template #updateAt="scope">
+        <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
+      </template>
+
+      <!-- footer slot 渲染table的底部 -->
     </wx-table>
   </div>
 </template>
@@ -40,6 +62,9 @@ export default defineComponent({
     const userListCount = store.state.system.userListCount
     console.log('userListCount: ', userListCount)
 
+    const showIndex = true
+    const showSelect = true
+    const title = '用户列表'
     const propsData = [
       { prop: 'name', label: '用户名', minWidth: 100, slotName: 'name' },
       {
@@ -69,10 +94,19 @@ export default defineComponent({
       },
     ]
 
+    const handleSelectionChange = (value: any) => {
+      console.log('user....')
+      console.log('value: ', value)
+    }
+
     return {
       userList,
       userListCount,
       propsData,
+      title,
+      showIndex,
+      showSelect,
+      handleSelectionChange,
     }
   },
 })
