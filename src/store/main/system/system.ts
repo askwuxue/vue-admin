@@ -1,7 +1,13 @@
 import { Module } from 'vuex'
 import { ISystemState } from './types'
 import { IRootState } from '../../types'
-import { getUserList } from '@/service/main/system/system'
+import { getList } from '@/service/main/system/system'
+import { capitalize } from '@/utils/tool'
+
+const pageNameUrlMap = new Map([
+  ['user', '/users/list'],
+  ['role', '/role/list'],
+])
 
 const system: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -9,6 +15,8 @@ const system: Module<ISystemState, IRootState> = {
     return {
       userList: [],
       userListCount: 0,
+      roleList: [],
+      roleListCount: 0,
     }
   },
   mutations: {
@@ -20,17 +28,34 @@ const system: Module<ISystemState, IRootState> = {
     updateUserListCount(state, userListCount) {
       state.userListCount = userListCount
     },
+    // 更新用户列表
+    updateRoleList(state, roleList) {
+      state.roleList = roleList
+    },
+    // 更新用户列表总条数
+    updateRoleListCount(state, roleListCount) {
+      state.roleListCount = roleListCount
+    },
   },
   actions: {
     // 获取list
-    async getPageListAction({ commit }, payload) {
-      const response = await getUserList(payload)
-      const { list: userList, totalCount: userListCount } = response.data
-      // 更新用户列表
-      commit('updateUserList', userList)
-      // 更新用户列表总条数
-      commit('updateUserListCount', userListCount)
-      // console.log('payload: ', payload)
+    async getPageListAction({ commit }, pageName) {
+      // 根据pageName动态的获取请求地址
+      const url = pageNameUrlMap.get(pageName)
+      // 发起请求的完整参数
+      const info = {
+        url,
+        queryInfo: {
+          offset: 0,
+          size: 100,
+        },
+      }
+      const response = await getList(info)
+      const { list, totalCount } = response.data
+      // pageName 首字母大写
+      const capitalizePageName = capitalize(pageName)
+      commit(`update${capitalizePageName}List`, list)
+      commit(`update${capitalizePageName}ListCount`, totalCount)
     },
   },
 }
