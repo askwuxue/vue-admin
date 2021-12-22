@@ -37,6 +37,14 @@ const system: Module<ISystemState, IRootState> = {
       state.roleListCount = roleListCount
     },
   },
+  // TODO getter无法取得数据，异步方法吗？
+  getters: {
+    getPageListData(state) {
+      return (pageName: string) => {
+        return (state as any)[`${pageName}List`]
+      }
+    },
+  },
   actions: {
     // 获取list
     async getPageListAction({ commit }, pageName) {

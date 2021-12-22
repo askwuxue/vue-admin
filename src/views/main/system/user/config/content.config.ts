@@ -29,5 +29,10 @@ export const pageContentConfig = {
       minWidth: 100,
       slotName: 'updateAt',
     },
+    {
+      label: '操作',
+      minWidth: 200,
+      slotName: 'handler',
+    },
   ],
 }
