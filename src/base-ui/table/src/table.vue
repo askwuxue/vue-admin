@@ -37,11 +37,6 @@
           </template>
         </el-table-column>
       </template>
-      <!-- 展示编辑栏 -->
-      <el-table-column label="操作" width="200" align="center">
-        <el-button type="primary" size="mini">编辑</el-button>
-        <el-button type="danger" size="mini">删除</el-button>
-      </el-table-column>
     </el-table>
     <!-- table 展示的footer -->
     <div class="footer">

@@ -1,6 +1,6 @@
 <template>
   <div class="page-content">
-    <wx-table v-bind="pageContentConfig" :tableData="userList">
+    <wx-table v-bind="config" :tableData="listData">
       <!-- header slot 渲染table的头部 -->
       <template #headerHandler>
         <el-button>创建用户</el-button>
@@ -18,7 +18,10 @@
       <template #updateAt="scope">
         <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
       </template>
-
+      <template #handler>
+        <el-button type="primary" size="mini">编辑</el-button>
+        <el-button type="danger" size="mini">删除</el-button>
+      </template>
       <!-- TODO footer slot 渲染table的底部 -->
     </wx-table>
   </div>
@@ -33,6 +36,10 @@ import { pageContentConfig } from '@/views/main/system/user/config/content.confi
 export default defineComponent({
   name: '',
   props: {
+    config: {
+      required: true,
+      type: Object,
+    },
     pageName: {
       type: String,
     },
@@ -41,17 +48,22 @@ export default defineComponent({
     WxTable,
   },
   setup(props, ctx: SetupContext) {
-    console.log('props: ', props)
+    // console.log('props: ', props)
     const store = useStore()
     store.dispatch('system/getPageListAction', props.pageName)
 
-    const userList = computed(() => store.state.system.userList)
-    // console.log('userList: ', userList)
-    const userListCount = store.state.system.userListCount
-    // console.log('userListCount: ', userListCount)
+    const listName = `${props.pageName}List`
+    const listCountName = `${props.pageName}ListCount`
+    // TODO 为什么需要转成any
+    // TODO getters为什么无法同步取得
+    // const listData = computed(() =>
+    //   store.getters[`system/getPageListData`](props.pageName),
+    // )
+    const listData = computed(() => (store as any).state.system[listName])
+    const listCount = (store as any).state.system[listCountName]
     return {
-      userList,
-      userListCount,
+      listData,
+      listCount,
       pageContentConfig,
     }
   },
