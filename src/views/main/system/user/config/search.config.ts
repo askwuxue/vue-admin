@@ -22,16 +22,16 @@ export const searchFormConfig: IForm = {
       placeholder: '请选择你的爱好',
       options: [
         {
-          value: 'Option1',
-          label: 'Option1',
+          value: 'basketball',
+          label: '打篮球',
         },
         {
-          value: 'Option2',
-          label: 'Option2',
+          value: 'football',
+          label: '踢足球',
         },
         {
-          value: 'Option3',
-          label: 'Option3',
+          value: 'swimming',
+          label: '游泳',
         },
       ],
     },
@@ -53,7 +53,7 @@ export const searchFormConfig: IForm = {
   itemStyle: {
     padding: '10px 40px',
   },
-  // // 响应式
+  // 响应式
   // colStyle: {
   //   xs: 24,
   //   sm: 24,
