@@ -1,17 +1,27 @@
 <template>
   <div class="user">
     <!-- 搜索栏 -->
-    <page-search></page-search>
+    <page-search
+      :config="searchFormConfig"
+      @resetBtnClick="handleResetClick"
+    ></page-search>
     <!-- 数据展示区 -->
-    <page-content :config="pageContentConfig" pageName="user"></page-content>
+    <page-content
+      :config="pageContentConfig"
+      ref="pageContentRef"
+      pageName="user"
+    ></page-content>
   </div>
 </template>
 
 <script lang="ts">
 import { PageSearch } from '@/components/page-search'
 import { PageContent } from '@/components/page-content'
+// 导入表单配置项
+import { searchFormConfig } from '@/views/main/system/user/config/search.config'
 import { pageContentConfig } from '@/views/main/system/user/config/content.config'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { usePageSearch } from '@/hooks/use-page-search'
 
 export default defineComponent({
   name: 'user',
@@ -20,12 +30,10 @@ export default defineComponent({
     PageContent,
   },
   setup() {
-    // const handleSelectionChange = (value: any) => {
-    //   console.log('value: ', value)
-    // }
-
+    const { handleResetClick } = usePageSearch()
     return {
-      // handleSelectionChange,
+      handleResetClick,
+      searchFormConfig,
       pageContentConfig,
     }
   },

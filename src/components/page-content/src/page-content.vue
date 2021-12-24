@@ -48,9 +48,19 @@ export default defineComponent({
     WxTable,
   },
   setup(props, ctx: SetupContext) {
-    // console.log('props: ', props)
     const store = useStore()
-    store.dispatch('system/getPageListAction', props.pageName)
+    // 发送请求获取页面数据
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 100,
+          ...queryInfo,
+        },
+      })
+    }
+    getPageData()
 
     const listName = `${props.pageName}List`
     const listCountName = `${props.pageName}ListCount`
@@ -64,6 +74,7 @@ export default defineComponent({
     return {
       listData,
       listCount,
+      getPageData,
       pageContentConfig,
     }
   },

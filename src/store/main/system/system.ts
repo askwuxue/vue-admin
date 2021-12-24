@@ -47,16 +47,13 @@ const system: Module<ISystemState, IRootState> = {
   },
   actions: {
     // 获取list
-    async getPageListAction({ commit }, pageName) {
+    async getPageListAction({ commit }, { pageName, queryInfo }) {
       // 根据pageName动态的获取请求地址
       const url = pageNameUrlMap.get(pageName)
       // 发起请求的完整参数
       const info = {
         url,
-        queryInfo: {
-          offset: 0,
-          size: 100,
-        },
+        queryInfo,
       }
       const response = await getList(info)
       const { list, totalCount } = response.data
