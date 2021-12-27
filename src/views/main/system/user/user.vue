@@ -4,6 +4,7 @@
     <page-search
       :config="searchFormConfig"
       @resetBtnClick="handleResetClick"
+      @searchBtnClick="handleSearchClick"
     ></page-search>
     <!-- 数据展示区 -->
     <page-content
@@ -15,12 +16,11 @@
 </template>
 
 <script lang="ts">
-import { PageSearch } from '@/components/page-search'
-import { PageContent } from '@/components/page-content'
-// 导入表单配置项
+import PageSearch from '@/components/page-search'
+import PageContent from '@/components/page-content'
 import { searchFormConfig } from '@/views/main/system/user/config/search.config'
 import { pageContentConfig } from '@/views/main/system/user/config/content.config'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { usePageSearch } from '@/hooks/use-page-search'
 
 export default defineComponent({
@@ -30,9 +30,12 @@ export default defineComponent({
     PageContent,
   },
   setup() {
-    const { handleResetClick } = usePageSearch()
+    const { pageContentRef, handleResetClick, handleSearchClick } =
+      usePageSearch()
     return {
+      pageContentRef,
       handleResetClick,
+      handleSearchClick,
       searchFormConfig,
       pageContentConfig,
     }
