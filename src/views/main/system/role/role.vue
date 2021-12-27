@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { PageContent } from '@/components/page-content'
+import PageContent from '@/components/page-content'
 import { pageContentConfig } from '@/views/main/system/role/config/content.config'
 
 export default defineComponent({
