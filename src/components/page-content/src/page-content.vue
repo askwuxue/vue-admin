@@ -1,6 +1,11 @@
 <template>
   <div class="page-content">
-    <wx-table v-bind="config" :tableData="listData">
+    <wx-table
+      v-bind="config"
+      :tableData="listData"
+      :tableDataCount="listCount"
+      v-model:page="paginationData"
+    >
       <!-- header slot 渲染table的头部 -->
       <template #headerHandler>
         <el-button>创建用户</el-button>
@@ -28,10 +33,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, computed } from 'vue'
+import { defineComponent, SetupContext, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import { WxTable } from '@/base-ui/table'
-import { pageContentConfig } from '@/views/main/system/user/config/content.config'
 
 export default defineComponent({
   name: '',
@@ -48,7 +52,11 @@ export default defineComponent({
     WxTable,
   },
   setup(props, ctx: SetupContext) {
+    const paginationData = ref({ currentPage: 0, pageSize: 10 })
+    watch(paginationData, () => getPageData())
+
     const store = useStore()
+
     // 发送请求获取页面数据
     const getPageData = (queryInfo: any = {}) => {
       store.dispatch('system/getPageListAction', {
@@ -64,18 +72,20 @@ export default defineComponent({
 
     const listName = `${props.pageName}List`
     const listCountName = `${props.pageName}ListCount`
+
     // TODO 为什么需要转成any
     // TODO getters为什么无法同步取得
     // const listData = computed(() =>
     //   store.getters[`system/getPageListData`](props.pageName),
     // )
+
     const listData = computed(() => (store as any).state.system[listName])
     const listCount = (store as any).state.system[listCountName]
     return {
+      paginationData,
       listData,
       listCount,
       getPageData,
-      pageContentConfig,
     }
   },
 })

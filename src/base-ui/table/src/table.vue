@@ -42,12 +42,12 @@
     <div class="footer">
       <slot name="footer">
         <!-- 分页 -->
+        <!-- v-model:currentPage="currentPage4" -->
         <el-pagination
-          v-model:currentPage="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :page-sizes="[10, 20, 30, 50]"
+          :page-size="page.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="tableDataCount"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         ></el-pagination>
@@ -58,6 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, SetupContext } from 'vue'
+
 export default defineComponent({
   name: '',
   // table 配置以及数据
@@ -82,17 +83,44 @@ export default defineComponent({
     tableData: {
       required: true,
       type: Array,
+      default: () => {
+        return []
+      },
+    },
+    tableDataCount: {
+      required: true,
+      type: Number,
+    },
+    // pagination
+    page: {
+      type: Object,
+      default: () => {
+        return {
+          currentPage: 1,
+          pageSize: 10,
+        }
+      },
     },
   },
   components: {},
-  emits: ['handleSelectionChange'],
+  emits: ['handleSelectionChange', 'update:page'],
   setup(props, { emit }) {
     const handleSelectionChange = (value: any) => {
       emit('handleSelectionChange', value)
       // console.log('value: ', value)
     }
 
+    const handleSizeChange = (pageSize: number) => {
+      emit('update:page', { ...props.page, pageSize })
+    }
+
+    const handleCurrentChange = (currentPage: number) => {
+      emit('update:page', { ...props.page, currentPage })
+    }
+
     return {
+      handleSizeChange,
+      handleCurrentChange,
       handleSelectionChange,
     }
   },
