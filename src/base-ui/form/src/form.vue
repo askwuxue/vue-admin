@@ -11,7 +11,11 @@
           <el-col v-bind="colStyle">
             <el-form-item :label="item.label" :style="itemStyle">
               <template
-                v-if="item.type === 'input' || item.type === 'password'"
+                v-if="
+                  item.type === 'input' ||
+                  item.type === 'password' ||
+                  item.type === 'tel'
+                "
               >
                 <!-- v-model="formData[`${item.filed}`]" -->
                 <el-input
@@ -23,23 +27,25 @@
               </template>
               <!-- type 属性为select -->
               <template v-else-if="item.type === 'select'">
-                <el-select placeholder="选择爱好" style="width: 100%">
+                <el-select style="width: 100%" :placeholder="item.placeholder">
                   <el-option
                     v-for="option of item.options"
                     :key="option.value"
-                    :label="option.label"
+                    :label="option.title"
                     :value="option.value"
                   ></el-option>
                 </el-select>
               </template>
               <!-- type 属性为datepicker -->
-              <!-- TODO datepicker 暂时注释 -->
-              <!-- <template v-else-if="item.type === 'datepicker'">
+              <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
                   v-bind="item.otherOptions"
                   style="width: 100%"
+                  range-separator="To"
+                  :model-value="modelValue[`${item.filed}`]"
+                  @update:modelValue="handleValueChange($event, item.filed)"
                 ></el-date-picker>
-              </template> -->
+              </template>
             </el-form-item>
           </el-col>
         </template>
@@ -53,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, watch } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { IFormData } from '../types'
 export default defineComponent({
   name: '',
