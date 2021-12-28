@@ -107,7 +107,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const handleSelectionChange = (value: any) => {
       emit('handleSelectionChange', value)
-      // console.log('value: ', value)
     }
 
     const handleSizeChange = (pageSize: number) => {

@@ -38,10 +38,18 @@ const system: Module<ISystemState, IRootState> = {
     },
   },
   // TODO getter无法取得数据，异步方法吗？
+  // 已解决，getter能正常获取数据，computed第一次调用时没有取得数据，第二次正常取得
   getters: {
+    // 获取listData
     getPageListData(state) {
       return (pageName: string) => {
         return (state as any)[`${pageName}List`]
+      }
+    },
+    // 获取listCount
+    getPageListCount(state) {
+      return (pageName: string) => {
+        return (state as any)[`${pageName}ListCount`]
       }
     },
   },

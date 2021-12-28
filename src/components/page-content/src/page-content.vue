@@ -52,7 +52,7 @@ export default defineComponent({
     WxTable,
   },
   setup(props, ctx: SetupContext) {
-    const paginationData = ref({ currentPage: 0, pageSize: 10 })
+    const paginationData = ref({ currentPage: 1, pageSize: 10 })
     watch(paginationData, () => getPageData())
 
     const store = useStore()
@@ -62,25 +62,26 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: 0,
-          size: 100,
+          offset:
+            (paginationData.value.currentPage - 1) *
+            paginationData.value.pageSize,
+          size: paginationData.value.pageSize,
           ...queryInfo,
         },
       })
     }
     getPageData()
 
-    const listName = `${props.pageName}List`
-    const listCountName = `${props.pageName}ListCount`
-
-    // TODO 为什么需要转成any
     // TODO getters为什么无法同步取得
-    // const listData = computed(() =>
-    //   store.getters[`system/getPageListData`](props.pageName),
-    // )
+    // 已解决：computed 会调用两次，第一次调用时，不会取得数据
 
-    const listData = computed(() => (store as any).state.system[listName])
-    const listCount = (store as any).state.system[listCountName]
+    const listData = computed(() =>
+      store.getters[`system/getPageListData`](props.pageName),
+    )
+
+    const listCount = computed(() =>
+      store.getters[`system/getPageListCount`](props.pageName),
+    )
     return {
       paginationData,
       listData,
