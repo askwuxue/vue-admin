@@ -27,7 +27,7 @@
         align="center"
       ></el-table-column>
       <template v-for="item of propsData" :key="item.prop">
-        <el-table-column v-bind="item" align="center">
+        <el-table-column v-bind="item" align="center" show-overflow-tooltip>
           <!-- 默认插槽 -->
           <template #default="scope">
             <!-- 动态插槽，如果没有使用propName进行动态插槽渲染，则渲染默认插槽 -->
