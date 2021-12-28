@@ -7,6 +7,7 @@ import { capitalize } from '@/utils/tool'
 const pageNameUrlMap = new Map([
   ['user', '/users/list'],
   ['role', '/role/list'],
+  ['goods', '/goods/list'],
 ])
 
 const system: Module<ISystemState, IRootState> = {
@@ -17,6 +18,8 @@ const system: Module<ISystemState, IRootState> = {
       userListCount: 0,
       roleList: [],
       roleListCount: 0,
+      goodsList: [],
+      goodsListCount: 0,
     }
   },
   mutations: {
@@ -35,6 +38,14 @@ const system: Module<ISystemState, IRootState> = {
     // 更新用户列表总条数
     updateRoleListCount(state, roleListCount) {
       state.roleListCount = roleListCount
+    },
+    // 更新商品列表
+    updateGoodsList(state, goodsList) {
+      state.goodsList = goodsList
+    },
+    // 更新商品列表总数
+    updateGoodsListCount(state, goodsListCount) {
+      state.goodsListCount = goodsListCount
     },
   },
   // TODO getter无法取得数据，异步方法吗？

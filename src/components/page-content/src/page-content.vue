@@ -14,8 +14,16 @@
       <template #status="scope">
         <!-- TODO 根据当前的状态设置不同的button样式 -->
         <el-button type="primary" size="small" plain>
-          {{ scope.row.enable ? '启用' : '关闭' }}
+          {{ scope.row.status ? '启用' : '关闭' }}
         </el-button>
+      </template>
+      <!-- TODO 图片插槽, 配置在page-content中过于耦合，应该动态的配置插槽在goods页面中 -->
+      <template #imgUrl="scope">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="scope.row.imgUrl"
+          :preview-src-list="[scope.row.imgUrl]"
+        ></el-image>
       </template>
       <template #createAt="scope">
         <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
@@ -41,11 +49,12 @@ export default defineComponent({
   name: '',
   props: {
     config: {
-      required: true,
       type: Object,
+      required: true,
     },
     pageName: {
       type: String,
+      required: true,
     },
   },
   components: {

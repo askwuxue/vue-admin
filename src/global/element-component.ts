@@ -33,6 +33,7 @@ import {
   ElTable,
   ElTableColumn,
   ElPagination,
+  ElImage,
 } from 'element-plus/lib/components'
 
 export default [
@@ -70,4 +71,5 @@ export default [
   ElTable,
   ElTableColumn,
   ElPagination,
+  ElImage,
 ]
