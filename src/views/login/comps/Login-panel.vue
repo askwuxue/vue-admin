@@ -48,7 +48,7 @@ export default defineComponent({
   },
   setup(props, ctx: SetupContext) {
     // login-account 组件ref
-    const accountRef = ref<InstanceType<typeof LoginPhone>>()
+    const accountRef = ref<InstanceType<typeof LoginAccount>>()
 
     // login-phone 组件ref
     const phoneRef = ref<InstanceType<typeof LoginPhone>>()
