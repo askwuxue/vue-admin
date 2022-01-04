@@ -5,7 +5,7 @@ import { RouteRecordRaw } from 'vue-router'
 let firstMenu: any = null
 
 // 映射菜单到路由对象
-export const mapMenusToRoutes = (usesMenus: any) => {
+export const mapMenusToRoutes = (usersMenus: any) => {
   // 所有路由信息
   const allRoutes: RouteRecordRaw[] = []
   // 加载路由文件
@@ -39,7 +39,25 @@ export const mapMenusToRoutes = (usesMenus: any) => {
       }
     }
   }
-  recursiveGetRoute(usesMenus)
+  recursiveGetRoute(usersMenus)
+}
+
+// 根据菜单映射出permission
+export const mapMenusToPermissions = (usersMenus: any) => {
+  const permissions: any[] = []
+  const getPermission = (usersMenus: any) => {
+    for (const menu of usersMenus) {
+      if (menu.type === 1 || menu.type === 2) {
+        getPermission(menu.children || [])
+      } else if (menu.type === 3) {
+        if (menu.permission) {
+          permissions.push(menu.permission)
+        }
+      }
+    }
+  }
+  getPermission(usersMenus)
+  return permissions
 }
 
 // 地址和菜单ID之间的映射

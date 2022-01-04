@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { IRootState } from '../types'
 import { ILoginState } from './types'
-import { mapMenusToRoutes } from '@/utils/mapMenus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/mapMenus'
 import router from '@/router'
 import {
   accountLoginRequest,
@@ -17,6 +17,7 @@ const login: Module<ILoginState, IRootState> = {
       token: '',
       userInfo: {},
       roleMenuInfo: {},
+      permissions: [],
     }
   },
   getters: {
@@ -39,6 +40,11 @@ const login: Module<ILoginState, IRootState> = {
     updateRoleMenuInfo(state, roleMenuInfo) {
       state.roleMenuInfo = roleMenuInfo
       mapMenusToRoutes(roleMenuInfo)
+    },
+
+    // 更新用户菜单对应的权限
+    updateRoleMenuPermission(state, roleMenuInfo) {
+      state.permissions = mapMenusToPermissions(roleMenuInfo)
     },
   },
   actions: {
@@ -74,6 +80,9 @@ const login: Module<ILoginState, IRootState> = {
 
       // 更新用户角色菜单信息
       commit('updateRoleMenuInfo', roleMenuInfo)
+
+      // 更新用户菜单对应的权限
+      commit('updateRoleMenuPermission', roleMenuInfo)
 
       // 缓存用户角色菜单信息
       cache.setCache('roleMenuInfo', roleMenuInfo)

@@ -7,7 +7,7 @@
       v-model:page="paginationData"
     >
       <!-- header slot 渲染table的头部 -->
-      <template #headerHandler>
+      <template #headerHandler v-if="isCreate">
         <el-button>创建用户</el-button>
       </template>
       <!-- 动态插槽的渲染,指定对应的propName -->
@@ -46,6 +46,7 @@
 import { defineComponent, SetupContext, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import { WxTable } from '@/base-ui/table'
+import { getPermissions } from '@/hooks/use-permission'
 
 export default defineComponent({
   name: '',
@@ -63,6 +64,10 @@ export default defineComponent({
     WxTable,
   },
   setup(props, ctx: SetupContext) {
+    // 获取操作权限
+    const isCreate = getPermissions(props.pageName, 'create')
+    const isDelete = getPermissions(props.pageName, 'delete')
+
     const otherSlots = props.config?.propsData.filter((item: any) => {
       if (
         item.slotName === 'name' ||
@@ -106,7 +111,10 @@ export default defineComponent({
     const listCount = computed(() =>
       store.getters[`system/getPageListCount`](props.pageName),
     )
+
     return {
+      isCreate,
+      isDelete,
       otherSlots,
       paginationData,
       listData,

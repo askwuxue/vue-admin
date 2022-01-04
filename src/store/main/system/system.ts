@@ -8,6 +8,7 @@ const pageNameUrlMap = new Map([
   ['user', '/users/list'],
   ['role', '/role/list'],
   ['goods', '/goods/list'],
+  ['menu', '/menu/list'],
 ])
 
 const system: Module<ISystemState, IRootState> = {
@@ -20,6 +21,8 @@ const system: Module<ISystemState, IRootState> = {
       roleListCount: 0,
       goodsList: [],
       goodsListCount: 0,
+      menuList: [],
+      menuListCount: 0,
     }
   },
   mutations: {
@@ -46,6 +49,14 @@ const system: Module<ISystemState, IRootState> = {
     // 更新商品列表总数
     updateGoodsListCount(state, goodsListCount) {
       state.goodsListCount = goodsListCount
+    },
+    // 更新商品列表
+    updateMenuList(state, menuList) {
+      state.menuList = menuList
+    },
+    // 更新商品列表总数
+    updateMenuListCount(state, menuListCount) {
+      state.menuListCount = menuListCount
     },
   },
   // TODO getter无法取得数据，异步方法吗？

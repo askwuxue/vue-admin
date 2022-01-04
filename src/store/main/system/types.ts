@@ -5,4 +5,6 @@ export interface ISystemState {
   roleListCount: number
   goodsList: any
   goodsListCount: number
+  menuList: any
+  menuListCount: number
 }
