@@ -12,18 +12,9 @@
       </template>
       <!-- 动态插槽的渲染,指定对应的propName -->
       <template #status="scope">
-        <!-- TODO 根据当前的状态设置不同的button样式 -->
         <el-button type="primary" size="small" plain>
           {{ scope.row.status ? '启用' : '关闭' }}
         </el-button>
-      </template>
-      <!-- TODO 图片插槽, 配置在page-content中过于耦合，应该动态的配置插槽在goods页面中 -->
-      <template #imgUrl="scope">
-        <el-image
-          style="width: 100px; height: 100px"
-          :src="scope.row.imgUrl"
-          :preview-src-list="[scope.row.imgUrl]"
-        ></el-image>
       </template>
       <template #createAt="scope">
         <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
@@ -34,6 +25,17 @@
       <template #handler>
         <el-button type="primary" size="mini">编辑</el-button>
         <el-button type="danger" size="mini">删除</el-button>
+      </template>
+
+      <!-- 其他插槽 -->
+      <template
+        v-for="item in otherSlots"
+        :key="item.slotName"
+        #[item.slotName]="scope"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
       <!-- TODO footer slot 渲染table的底部 -->
     </wx-table>
@@ -61,11 +63,24 @@ export default defineComponent({
     WxTable,
   },
   setup(props, ctx: SetupContext) {
+    const otherSlots = props.config?.propsData.filter((item: any) => {
+      if (
+        item.slotName === 'name' ||
+        item.slotName === 'status' ||
+        item.slotName === 'createAt' ||
+        item.slotName === 'updateAt' ||
+        item.slotName === 'handler'
+      ) {
+        return false
+      }
+      return true
+    })
+    console.log('otherSlots: ', otherSlots)
+
     const paginationData = ref({ currentPage: 1, pageSize: 10 })
     watch(paginationData, () => getPageData())
 
     const store = useStore()
-
     // 发送请求获取页面数据
     const getPageData = (queryInfo: any = {}) => {
       store.dispatch('system/getPageListAction', {
@@ -92,6 +107,7 @@ export default defineComponent({
       store.getters[`system/getPageListCount`](props.pageName),
     )
     return {
+      otherSlots,
       paginationData,
       listData,
       listCount,
