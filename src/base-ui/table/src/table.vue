@@ -15,6 +15,7 @@
       :data="tableData"
       border
       @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
     >
       <!-- 是否展示数据可选择框 -->
       <el-table-column v-if="showSelect" type="selection"></el-table-column>
@@ -39,7 +40,7 @@
       </template>
     </el-table>
     <!-- table 展示的footer -->
-    <div class="footer">
+    <div class="footer" v-show="showFooter">
       <slot name="footer">
         <!-- 分页 -->
         <!-- v-model:currentPage="currentPage4" -->
@@ -90,6 +91,16 @@ export default defineComponent({
     tableDataCount: {
       required: true,
       type: Number,
+    },
+    // tree
+    childrenProps: {
+      type: Object,
+      default: () => ({}),
+    },
+    // 是否展示footer
+    showFooter: {
+      type: Boolean,
+      default: true,
     },
     // pagination
     page: {
