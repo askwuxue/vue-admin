@@ -22,9 +22,15 @@
       <template #updateAt="scope">
         <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <el-button type="primary" size="mini">编辑</el-button>
-        <el-button type="danger" size="mini">删除</el-button>
+        <el-button
+          type="danger"
+          size="mini"
+          @click="handleClickDelete(scope.row)"
+        >
+          删除
+        </el-button>
       </template>
 
       <!-- 其他插槽 -->
@@ -68,6 +74,7 @@ export default defineComponent({
     const isCreate = getPermissions(props.pageName, 'create')
     const isDelete = getPermissions(props.pageName, 'delete')
 
+    // 其他配置slot
     const otherSlots = props.config?.propsData.filter((item: any) => {
       if (
         item.slotName === 'name' ||
@@ -80,8 +87,15 @@ export default defineComponent({
       }
       return true
     })
-    console.log('otherSlots: ', otherSlots)
 
+    // 绑定删除
+    const handleClickDelete = (item: any) => {
+      console.log('item: ', item)
+      store.dispatch('system/deleteDataAction', {
+        pageName: props.pageName,
+        id: item.id,
+      })
+    }
     const paginationData = ref({ currentPage: 1, pageSize: 10 })
     watch(paginationData, () => getPageData())
 
@@ -120,6 +134,7 @@ export default defineComponent({
       listData,
       listCount,
       getPageData,
+      handleClickDelete,
     }
   },
 })

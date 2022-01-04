@@ -9,3 +9,10 @@ export const getList = ({ url, queryInfo }: any) => {
     data: queryInfo,
   })
 }
+
+// 删除数据
+export const deleteData = (url: string) => {
+  return request.delete<IDataType>({
+    url,
+  })
+}

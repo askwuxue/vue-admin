@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { ISystemState } from './types'
 import { IRootState } from '../../types'
-import { getList } from '@/service/main/system/system'
+import { getList, deleteData } from '@/service/main/system/system'
 import { capitalize } from '@/utils/tool'
 
 const pageNameUrlMap = new Map([
@@ -91,6 +91,22 @@ const system: Module<ISystemState, IRootState> = {
       const capitalizePageName = capitalize(pageName)
       commit(`update${capitalizePageName}List`, list)
       commit(`update${capitalizePageName}ListCount`, totalCount)
+    },
+
+    // 删除数据
+    async deleteDataAction({ dispatch }, payload) {
+      const { id, pageName } = payload
+      const url = `/${pageName}s/${id}`
+      const responseData = await deleteData(url)
+      console.log('responseData: ', responseData)
+      // 刷新数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+        },
+      })
     },
   },
 }
