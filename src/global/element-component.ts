@@ -34,6 +34,7 @@ import {
   ElTableColumn,
   ElPagination,
   ElImage,
+  ElDialog,
 } from 'element-plus/lib/components'
 
 export default [
@@ -72,4 +73,5 @@ export default [
   ElTableColumn,
   ElPagination,
   ElImage,
+  ElDialog,
 ]
