@@ -28,6 +28,19 @@ export const modalConfig: IForm = {
       label: '电话号码',
       placeholder: '请输入电话号码',
     },
+    {
+      filed: 'departmentId',
+      type: 'select',
+      label: '部门选择',
+      placeholder: '请选择部门',
+      options: [],
+    },
+    {
+      filed: 'roleId',
+      type: 'select',
+      label: '角色选择',
+      placeholder: '请选择角色',
+    },
   ],
   // label宽度
   labelWidth: '120px',

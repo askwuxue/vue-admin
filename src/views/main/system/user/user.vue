@@ -18,7 +18,7 @@
 
     <!-- 模态框 -->
     <page-modal
-      :config="modalConfig"
+      :config="modalConfigRef"
       ref="pageModalRef"
       :defaultModalData="defaultModalData"
     ></page-modal>
@@ -32,9 +32,10 @@ import PageModal from '@/components/page-modal'
 import { searchFormConfig } from '@/views/main/system/user/config/search.config'
 import { pageContentConfig } from '@/views/main/system/user/config/content.config'
 import { modalConfig } from '@/views/main/system/user/config/modal.config'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { usePageSearch } from '@/hooks/use-page-search'
 import { usePageModal } from '@/hooks/use-page-modal'
+import store from '@/store'
 
 export default defineComponent({
   name: 'user',
@@ -67,13 +68,33 @@ export default defineComponent({
     const [defaultModalData, pageModalRef, handleCreateData, handleEditData] =
       usePageModal(createCallback, editCallback)
 
+    // 获取department数据和role数据,动态设置到配置中
+    // TODO 下拉列表无法正常选择
+    const modalConfigRef = computed(() => {
+      const departmentItem = modalConfig.formItems.find(
+        (item) => item.filed === 'departmentId',
+      )
+      departmentItem!.options = store.state.entireDepartment.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+
+      const roleItem = modalConfig.formItems.find(
+        (item) => item.filed === 'roleId',
+      )
+
+      roleItem!.options = store.state.entireRole.map((item) => {
+        return { title: item.name, value: item.id }
+      })
+      return modalConfig
+    })
+
     return {
       pageContentRef,
       handleResetClick,
       handleSearchClick,
       searchFormConfig,
       pageContentConfig,
-      modalConfig,
+      modalConfigRef,
       pageModalRef,
       defaultModalData,
       handleCreateData,
