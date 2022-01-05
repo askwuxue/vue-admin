@@ -12,8 +12,8 @@
       :config="pageContentConfig"
       ref="pageContentRef"
       pageName="user"
-      @createDataFn="handleCreateUser"
-      @editDataFn="handleEditUser"
+      @createDataFn="handleCreateData"
+      @editDataFn="handleEditData"
     ></page-content>
 
     <!-- 模态框 -->
@@ -46,7 +46,7 @@ export default defineComponent({
   setup() {
     const [pageContentRef, handleResetClick, handleSearchClick] =
       usePageSearch()
-    const [defaultModalData, pageModalRef, handleCreateUser, handleEditUser] =
+    const [defaultModalData, pageModalRef, handleCreateData, handleEditData] =
       usePageModal()
 
     return {
@@ -58,8 +58,8 @@ export default defineComponent({
       modalConfig,
       pageModalRef,
       defaultModalData,
-      handleCreateUser,
-      handleEditUser,
+      handleCreateData,
+      handleEditData,
     }
   },
 })

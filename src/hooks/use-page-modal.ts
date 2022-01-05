@@ -8,17 +8,17 @@ export function usePageModal() {
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
 
   // 新建用户
-  const handleCreateUser = () => {
+  const handleCreateData = () => {
     // 新建用户默认传递数据为空
     defaultModalData = ref({})
     pageModalRef.value.centerDialogVisible = true
   }
 
   // 编辑用户
-  const handleEditUser = (item: any) => {
+  const handleEditData = (item: any) => {
     pageModalRef.value.centerDialogVisible = true
     defaultModalData.value = { ...item }
   }
 
-  return [defaultModalData, pageModalRef, handleCreateUser, handleEditUser]
+  return [defaultModalData, pageModalRef, handleCreateData, handleEditData]
 }
