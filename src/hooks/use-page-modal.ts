@@ -3,12 +3,14 @@ import PageModal from '@/components/page-modal'
 
 export function usePageModal() {
   // 默认传递给模态框的数据
-  const defaultModalData = ref({})
+  let defaultModalData = ref({})
 
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
 
   // 新建用户
   const handleCreateUser = () => {
+    // 新建用户默认传递数据为空
+    defaultModalData = ref({})
     pageModalRef.value.centerDialogVisible = true
   }
 
