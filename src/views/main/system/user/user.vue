@@ -12,10 +12,16 @@
       :config="pageContentConfig"
       ref="pageContentRef"
       pageName="user"
+      @createDataFn="handleCreateUser"
+      @editDataFn="handleEditUser"
     ></page-content>
 
     <!-- 模态框 -->
-    <page-modal :config="modalConfig"></page-modal>
+    <page-modal
+      :config="modalConfig"
+      ref="pageModalRef"
+      :defaultModalData="defaultModalData"
+    ></page-modal>
   </div>
 </template>
 
@@ -28,6 +34,7 @@ import { pageContentConfig } from '@/views/main/system/user/config/content.confi
 import { modalConfig } from '@/views/main/system/user/config/modal.config'
 import { defineComponent } from 'vue'
 import { usePageSearch } from '@/hooks/use-page-search'
+import { usePageModal } from '@/hooks/use-page-modal'
 
 export default defineComponent({
   name: 'user',
@@ -37,8 +44,11 @@ export default defineComponent({
     PageContent,
   },
   setup() {
-    const { pageContentRef, handleResetClick, handleSearchClick } =
+    const [pageContentRef, handleResetClick, handleSearchClick] =
       usePageSearch()
+    const [defaultModalData, pageModalRef, handleCreateUser, handleEditUser] =
+      usePageModal()
+
     return {
       pageContentRef,
       handleResetClick,
@@ -46,6 +56,10 @@ export default defineComponent({
       searchFormConfig,
       pageContentConfig,
       modalConfig,
+      pageModalRef,
+      defaultModalData,
+      handleCreateUser,
+      handleEditUser,
     }
   },
 })

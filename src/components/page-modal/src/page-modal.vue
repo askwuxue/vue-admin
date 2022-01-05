@@ -7,7 +7,7 @@
       width="30%"
       center
     >
-      <wx-form v-bind="config" v-model="modalValue"></wx-form>
+      <wx-form v-bind="config" v-model="formData"></wx-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, watch } from 'vue'
 import WxForm from '@/base-ui/form'
 
 export default defineComponent({
@@ -33,13 +33,29 @@ export default defineComponent({
       required: true,
       type: Object,
     },
+    defaultModalData: {
+      type: Object,
+      default: () => ({}),
+    },
   },
-  setup() {
-    const centerDialogVisible = ref(true)
-    const modalValue = {}
+  setup(props) {
+    const centerDialogVisible = ref(false)
+    // 默认传递给wx-form的数据
+    const formData = ref({})
+
+    // 监听传递给modal的数据，发生变化，数据同步到wx-form
+    watch(
+      () => props.defaultModalData,
+      (newValue) => {
+        for (const item of props.config.formItems) {
+          formData.value[`${item.filed}`] = newValue[`${item.filed}`]
+        }
+      },
+    )
+
     return {
       centerDialogVisible,
-      modalValue,
+      formData,
     }
   },
 })

@@ -17,5 +17,5 @@ export const usePageSearch = () => {
     pageContentRef.value?.getPageData(queryInfo)
   }
 
-  return { pageContentRef, handleResetClick, handleSearchClick }
+  return [pageContentRef, handleResetClick, handleSearchClick]
 }

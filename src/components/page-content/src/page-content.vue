@@ -7,8 +7,9 @@
       v-model:page="paginationData"
     >
       <!-- header slot 渲染table的头部 -->
-      <template #headerHandler v-if="isCreate">
-        <el-button>创建用户</el-button>
+      <!-- TODO v-if="isCreate" -->
+      <template #headerHandler>
+        <el-button @click="handleCreateData">创建用户</el-button>
       </template>
       <!-- 动态插槽的渲染,指定对应的propName -->
       <template #status="scope">
@@ -23,7 +24,13 @@
         <span>{{ $filter.formatUTCDate(scope.row.createAt) }}</span>
       </template>
       <template #handler="scope">
-        <el-button type="primary" size="mini">编辑</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleEditData(scope.row)"
+        >
+          编辑
+        </el-button>
         <el-button
           type="danger"
           size="mini"
@@ -49,13 +56,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, computed, ref, watch } from 'vue'
+import { defineComponent, computed, ref, watch } from 'vue'
 import { useStore } from '@/store'
 import { WxTable } from '@/base-ui/table'
 import { getPermissions } from '@/hooks/use-permission'
 
 export default defineComponent({
   name: '',
+  emits: ['createDataFn', 'editDataFn'],
   props: {
     config: {
       type: Object,
@@ -69,7 +77,7 @@ export default defineComponent({
   components: {
     WxTable,
   },
-  setup(props, ctx: SetupContext) {
+  setup(props, { emit }) {
     // 获取操作权限
     const isCreate = getPermissions(props.pageName, 'create')
     const isDelete = getPermissions(props.pageName, 'delete')
@@ -88,14 +96,24 @@ export default defineComponent({
       return true
     })
 
-    // 绑定删除
+    // 删除
     const handleClickDelete = (item: any) => {
-      console.log('item: ', item)
       store.dispatch('system/deleteDataAction', {
         pageName: props.pageName,
         id: item.id,
       })
     }
+
+    // 新建
+    const handleCreateData = () => {
+      emit('createDataFn')
+    }
+
+    // 编辑
+    const handleEditData = (item: any) => {
+      emit('editDataFn', item)
+    }
+
     const paginationData = ref({ currentPage: 1, pageSize: 10 })
     watch(paginationData, () => getPageData())
 
@@ -135,6 +153,8 @@ export default defineComponent({
       listCount,
       getPageData,
       handleClickDelete,
+      handleCreateData,
+      handleEditData,
     }
   },
 })
