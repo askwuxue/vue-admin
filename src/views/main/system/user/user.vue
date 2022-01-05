@@ -46,8 +46,26 @@ export default defineComponent({
   setup() {
     const [pageContentRef, handleResetClick, handleSearchClick] =
       usePageSearch()
+
+    // 创建用户，不隐藏密码框
+    const createCallback = () => {
+      const passwordItem = modalConfig.formItems.find(
+        (item) => item.filed === 'password',
+      )
+      passwordItem!.isHidden = false
+    }
+
+    // 编辑用户，隐藏密码框
+    const editCallback = () => {
+      const passwordItem = modalConfig.formItems.find(
+        (item) => item.filed === 'password',
+      )
+      passwordItem!.isHidden = true
+    }
+
+    // page-modal hooks逻辑
     const [defaultModalData, pageModalRef, handleCreateData, handleEditData] =
-      usePageModal()
+      usePageModal(createCallback, editCallback)
 
     return {
       pageContentRef,

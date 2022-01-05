@@ -6,6 +6,7 @@
       title="新建用户"
       width="30%"
       center
+      destroy-on-close
     >
       <wx-form v-bind="config" v-model="formData"></wx-form>
       <template #footer>

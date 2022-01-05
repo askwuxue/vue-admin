@@ -9,7 +9,11 @@
         <template v-for="item of formItems" :key="item.label">
           <!-- el-col 的响应式属性 xl,sm等对应的数值，响应式时会被绑定为span -->
           <el-col v-bind="colStyle">
-            <el-form-item :label="item.label" :style="itemStyle">
+            <el-form-item
+              :label="item.label"
+              :style="itemStyle"
+              v-if="!item.isHidden"
+            >
               <template
                 v-if="
                   item.type === 'input' ||

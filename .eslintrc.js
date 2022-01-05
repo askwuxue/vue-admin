@@ -22,5 +22,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     // 允许函数通过自动推断确定返回值类型
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    // 允许强制赋值
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 }
