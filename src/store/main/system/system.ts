@@ -1,7 +1,12 @@
 import { Module } from 'vuex'
 import { ISystemState } from './types'
 import { IRootState } from '../../types'
-import { getList, deleteData } from '@/service/main/system/system'
+import {
+  getList,
+  deleteData,
+  createData,
+  editData,
+} from '@/service/main/system/system'
 import { capitalize } from '@/utils/tool'
 
 const pageNameUrlMap = new Map([
@@ -100,6 +105,35 @@ const system: Module<ISystemState, IRootState> = {
       const responseData = await deleteData(url)
       console.log('responseData: ', responseData)
       // 刷新数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+        },
+      })
+    },
+
+    // 新建数据
+    async createDataAction({ dispatch }, { pageName, dataInfo }) {
+      const url = `/${pageName}s/`
+      const response = await createData({ url, dataInfo })
+      console.log('response: ', response)
+      // 刷新数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+        },
+      })
+    },
+
+    // 编辑数据
+    async editDataAction({ dispatch }, { pageName, editInfo, id }) {
+      const url = `/${pageName}s/${id}`
+      const response = await editData({ url, editInfo })
+      console.log('response: ', response)
       dispatch('getPageListAction', {
         pageName,
         queryInfo: {

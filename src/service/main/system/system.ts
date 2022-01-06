@@ -16,3 +16,19 @@ export const deleteData = (url: string) => {
     url,
   })
 }
+
+// 新建数据
+export const createData = ({ url, dataInfo }: any) => {
+  return request.post<IDataType>({
+    url,
+    data: dataInfo,
+  })
+}
+
+// 编辑数据
+export const editData = ({ url, editInfo }: any) => {
+  return request.patch<IDataType>({
+    url,
+    data: editInfo,
+  })
+}
