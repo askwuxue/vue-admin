@@ -114,4 +114,8 @@ export default class Request {
   delete<T>(config: RequestConfig<T>): Promise<T> {
     return this.request({ ...config, method: 'DELETE' })
   }
+
+  patch<T>(config: RequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'PATCH' })
+  }
 }
