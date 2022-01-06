@@ -31,7 +31,13 @@
               </template>
               <!-- type 属性为select -->
               <template v-else-if="item.type === 'select'">
-                <el-select style="width: 100%" :placeholder="item.placeholder">
+                <!-- 双向数据绑定 -->
+                <el-select
+                  style="width: 100%"
+                  placeholder="请选择部门"
+                  :model-value="modelValue[`${item.filed}`]"
+                  @update:modelValue="handleValueChange($event, item.filed)"
+                >
                   <el-option
                     v-for="option of item.options"
                     :key="option.value"
