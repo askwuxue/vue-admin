@@ -35,6 +35,7 @@ import {
   ElPagination,
   ElImage,
   ElDialog,
+  ElCard,
 } from 'element-plus/lib/components'
 
 export default [
@@ -74,4 +75,5 @@ export default [
   ElPagination,
   ElImage,
   ElDialog,
+  ElCard,
 ]
