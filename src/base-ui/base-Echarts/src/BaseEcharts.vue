@@ -1,42 +1,34 @@
 <template>
   <div class="base-echarts">
-    <div ref="echartsDivRef" :style="{ width: '400px', height: '300px' }"></div>
+    <div ref="echartsDivRef" :style="{ width: width, height: height }"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import * as echarts from 'echarts'
-import { defineProps, withDefaults, ref, onMounted } from 'vue'
+import { EChartsOption } from 'echarts'
+import { defineProps, withDefaults, ref, onMounted, watchEffect } from 'vue'
+// import options1 from '../data/options1.json'
+import useEcharts from '../hooks/use-echarts'
 
+// TODO方便使用ts
 const props = withDefaults(
   defineProps<{
-    options: ''
+    options: EChartsOption
+    width?: string
+    height?: string
   }>(),
-  {},
+  { width: '100%', height: '300px' },
 )
 
 // TODO ref的使用
 const echartsDivRef = ref<HTMLElement>()
 
+// TODO ref在挂载结束之前不存在
 onMounted(() => {
-  var myChart = echarts.init(echartsDivRef.value!)
+  const { setOptions } = useEcharts(echartsDivRef.value!)
   // 绘制图表
-  myChart.setOption({
-    title: {
-      text: 'ECharts 入门示例',
-    },
-    tooltip: {},
-    xAxis: {
-      data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
-    },
-    yAxis: {},
-    series: [
-      {
-        name: '销量',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10, 20],
-      },
-    ],
+  watchEffect(() => {
+    setOptions(props.options)
   })
 })
 </script>
