@@ -2,7 +2,8 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { requestInterceptors, RequestConfig } from './type'
 import { ElLoading } from 'element-plus'
-import { ILoadingInstance } from 'element-plus/es/components/loading/index'
+// import { ILoadingInstance } from 'element-plus/es/components/loading/index'
+import { ILoadingInstance } from 'element-plus/lib/components/loading/src/loading.type'
 
 // loading状态,用于还原实例中loading的默认值
 const DEFAULT_LOADING = false
