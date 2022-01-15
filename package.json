@@ -17,6 +17,7 @@
     "dayjs": "^1.10.7",
     "echarts": "^5.2.2",
     "element-plus": "^1.2.0-beta.1",
+    "fork-ts-checker-webpack-plugin": "6.2.2",
     "normalize.css": "^8.0.1",
     "sass": "^1.43.4",
     "sass-loader": "^10",
