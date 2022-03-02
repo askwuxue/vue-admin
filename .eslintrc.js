@@ -1,7 +1,9 @@
 module.exports = {
   root: true,
   env: {
+    browser: true,
     node: true,
+    es6: true,
   },
   extends: [
     'plugin:vue/vue3-essential',
@@ -11,6 +13,7 @@ module.exports = {
     '@vue/prettier/@typescript-eslint',
   ],
   parserOptions: {
+    sourceType: 'module', // 模块为 ECMAScript 模块
     ecmaVersion: 2020,
   },
   rules: {
